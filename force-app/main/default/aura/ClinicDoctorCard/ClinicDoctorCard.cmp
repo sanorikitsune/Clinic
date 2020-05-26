@@ -1,0 +1,33 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" controller="ClinicController">
+    
+    <aura:attribute name="doctor" type="Doctor__c"/>
+    <aura:attribute name="times" type="String[]"/>
+    
+    <aura:attribute name="patient" type="Patient__c"/>
+
+    <aura:registerEvent name="success" type="c:addRecordEvent"/>
+   
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+<!--_____________________________________________________________________-->
+
+
+    
+        <lightning:card>
+            <div class="slds-border_top slds-border_bottom">
+                <p>{!v.doctor.First_Name__c}</p>
+                <p>{!v.doctor.Last_Name__c}</p>
+                <p>{!v.doctor.Type__c}</p>
+                <p>{!v.doctor.Time__c}</p>
+                <aura:iteration items="{!v.times}" var="Time">                    
+                    <lightning:button label="{!Time}" onclick="{!c.verify}"/>     
+                </aura:iteration>
+                <br></br>
+                <lightning:button label="Delete this doctor" onclick="{!c.deleteAction}"/>
+            </div>
+        </lightning:card>
+
+    
+
+    <lightning:navigation aura:id="navService"/>
+
+</aura:component>

@@ -1,0 +1,74 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" controller="ClinicController">
+
+    <aura:attribute name="signup" type="Patient__c" 
+    default=
+    "{'First_Name__c':'',
+    'Last_Name__c':'',
+    'Policy__c':'',    
+    'sobjectType':'Patient__c'}"/>
+
+    <aura:attribute name="login" type="Patient__c" 
+    default=
+    "{'First_Name__c':'',
+    'Last_Name__c':'',
+    'Policy__c':'',    
+    'sobjectType':'Patient__c'}"/>
+
+<!--_____________________________________________________________________-->
+
+
+    <div class="slds-m-around_medium">
+        <lightning:card>
+            <div class="slds-m-horizontal_medium slds-m-bottom_medium">
+                <lightning:tabset variant="vertical">
+
+                    <lightning:tab label="Log In">
+                        <div class="slds-m-horizontal_medium">
+                            <h1><strong>Input your policy</strong></h1>
+                            <h1 hidden="true" id="loginMessage"><strong>Input your policy</strong></h1>
+                            <lightning:input        aura:id="loginForm" 
+                                                    label="Policy:"
+                                                    name="nameForm"
+                                                    value="{!v.login.Policy__c}"
+                                                    required="true"/>
+                            <br></br> 
+                            <lightning:button label="Log In" onclick="{!c.loginAction}"/>
+                        </div>
+                        
+                    </lightning:tab>
+
+                    <lightning:tab label="Create patient">
+                        <div class="slds-m-horizontal_medium">
+                            <h1><strong>Create new patient</strong></h1>
+                            <h1 hidden="true" id="message"><strong>Input your policy</strong></h1>
+                            <lightning:input        aura:id="signupForm" 
+                                                    label="First Name:"
+                                                    name="nameForm"
+                                                    value="{!v.signup.First_Name__c}"
+                                                    required="true"/>
+                            <br></br>
+                            <lightning:input        aura:id="signupForm" 
+                                                    label="Last Name:"
+                                                    name="nameForm"
+                                                    value="{!v.signup.Last_Name__c}"
+                                                    required="true"/>
+                            <br></br>
+                            <lightning:input        type="number"
+                                                    aura:id="signupForm" 
+                                                    label="Policy:"
+                                                    name="nameForm"
+                                                    value="{!v.signup.Policy__c}"
+                                                    required="true"/>
+                            <br></br>                        
+                            <lightning:button label="Create" onclick="{!c.createAction}"/>
+                        </div>                        
+                    </lightning:tab>
+                </lightning:tabset>
+            </div>
+        </lightning:card>
+    </div>
+    
+
+    <lightning:navigation aura:id="navService"/>
+
+</aura:component>
