@@ -1,0 +1,33 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" controller="ClinicController">
+    
+    <aura:attribute name="doctors" type="Doctor__c[]"/>
+    <aura:attribute name="patient" type="Patient__c"/>
+    
+
+<!--_____________________________________________________________________-->
+
+
+    <div class="slds-m-around_medium">
+        <lightning:card>
+            <div class="slds-m-horizontal_medium slds-m-bottom_medium">
+                <div>
+                    <lightning:button label="All" onclick="{!c.filter}"/>
+                    <lightning:button label="Therapist" onclick="{!c.filter}"/>
+                    <lightning:button label="Otolaryngologist" onclick="{!c.filter}"/>
+                    <lightning:button label="Surgeon" onclick="{!c.filter}"/>
+                    <lightning:button label="Cardiologist" onclick="{!c.filter}"/>
+                </div>
+                <div>
+                <aura:iteration items="{!v.doctors}" var="doctor">                    
+                    <c:ClinicDoctorCard doctor="{!doctor}" patient="{!v.patient}"/>      
+                </aura:iteration>
+                </div>  
+                
+            </div>
+        </lightning:card>
+    </div>
+    
+
+    <lightning:navigation aura:id="navService"/>
+
+</aura:component>

@@ -1,0 +1,115 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" controller="ClinicController">
+    
+    <aura:attribute name="options" type="List" default="[
+    {'label': '8:00', 'value': '8:00'},
+    {'label': '8:30', 'value': '8:30'},
+    {'label': '9:00', 'value': '9:00'},
+    {'label': '9:30', 'value': '9:30'},
+    {'label': '10:00', 'value': '10:00'},
+    {'label': '10:30', 'value': '10:30'},
+    {'label': '11:00', 'value': '11:00'},
+    {'label': '11:30', 'value': '11:30'},
+    ]"/>
+
+    <aura:attribute name="value" type="List" default="['8:00', '8:30', '9:00', '9:30', '10:00','10:30','11:00','11:30']"/>
+    <aura:attribute name="patient" type="Patient__c"/>
+    <aura:attribute name="doctor" type="Doctor__c"
+    default=
+    "{'First_Name__c':'',
+    'Last_Name__c':'',
+    'Type__c':'',
+    'Time__c':'',     
+    'sobjectType':'Doctor__c'}"/>/>
+    <aura:attribute name="doctors" type="Doctor__c[]"/>
+    <aura:attribute name="records" type="Record__c[]"/>
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <aura:handler name="success" event="c:addRecordEvent"
+        action="{!c.beforeRecord}"/>
+
+    <lightning:card>     
+  
+        <div class="slds-m-horizontal_medium slds-m-bottom_medium">
+            <lightning:tabset variant="vertical" selectedTabId="three">
+
+                <lightning:tab onactive="{!c.initCreateRecordTab}" label="Create record" id="one">
+                    <div class="slds-m-horizontal_medium">
+                        <lightning:progressIndicator aura:id="progress" currentStep="1" type="path" variant="base">
+                            <lightning:progressStep label="Scenario" value="1"/>
+                            <lightning:progressStep label="Select" value="2"/>
+                            <lightning:progressStep label="Verification" value="3"/>
+                            <lightning:progressStep label="Finish" value="4"/>
+                        </lightning:progressIndicator>
+                        <br></br>
+                        
+                        <div id="but" aura:id = 'but'>
+                            <h1><strong>Select your scenario</strong></h1>
+                            <lightning:button label="Select doctor" onclick="{!c.selectDoctor}"/>
+                            <lightning:button label="Select time" onclick="{!c.selectTime}"/>
+                        </div>                      
+                        <div aura:id="doctorSelect" class="slds-hide">
+                            <c:ClinicSelectDoctor doctors="{!v.doctors}" patient="{!v.patient}"/>
+                        </div>
+                        <div aura:id="timeSelect" class="slds-hide">
+                            <c:ClinicSelectTime doctors="{!v.doctors}" patient="{!v.patient}"/>
+                        </div>
+                        <div aura:id="finish" class="slds-hide">
+                            <p><strong>You have successfully signed up!</strong></p>
+                        </div>
+                    </div>
+                    
+                </lightning:tab>
+                
+                <lightning:tab onactive="{!c.initCheckRecordTab}" label="Check records" id="two">
+                    <div class="slds-m-horizontal_medium">
+                        <div>                            
+                        <h1><strong>Your records</strong></h1>
+                        </div>
+                        <div>
+                            <aura:iteration items="{!v.records}" var="record">                    
+                                <c:ClinicRecords patient="{!v.patient}" record="{!record}"/>      
+                            </aura:iteration>
+                        </div>
+                        
+                    </div>
+                    
+                </lightning:tab>
+                <lightning:tab label="Create doctor" id="three">
+                    <div class="slds-m-horizontal_medium">
+                        <h1><strong>Create new doctor</strong></h1>
+                        <h1 hidden="true" id="message"><strong></strong></h1>
+                        <lightning:input        aura:id="form" 
+                                                label="First Name:"
+                                                name="nameForm"
+                                                value="{!v.doctor.First_Name__c}"
+                                                required="true"/>
+                        <br></br>
+                        <lightning:input        aura:id="form" 
+                                                label="Last Name:"
+                                                name="nameForm"
+                                                value="{!v.doctor.Last_Name__c}"
+                                                required="true"/>
+                        <br></br>
+                        <lightning:select aura:id="select" label="Type:" value="{!v.doctor.Type__c}">
+                            <option value="">choose one...</option>
+                            <option value="Therapist">Therapist</option>
+                            <option value="Otolaryngologist">Otolaryngologist</option>
+                            <option value="Surgeon">Surgeon</option>
+                            <option value="Cardiologist">Cardiologist</option>
+                        </lightning:select>
+                        
+                        <br></br>
+                        <lightning:checkboxGroup name="Available time"
+                             label="Available time"
+                             options="{! v.options }"
+                             value="{! v.value }"/>
+                        <br></br> 
+                        <lightning:button label="Create" onclick="{!c.createAction}"/>
+                    </div>                        
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+    </lightning:card>
+    <lightning:navigation aura:id="navService"/>
+</aura:component>
